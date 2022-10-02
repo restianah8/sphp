@@ -34,12 +34,6 @@ class RegistrasiController extends Controller
             'password.required' =>'password wajib di isi',
             'password.min' =>'minimum password yang di masukan 6 karakter',       
          ]);
-        $inforegister = [
-            'name' => $request ->name,
-            'alamat' => $request ->alamat,
-            'email' => $request ->email,
-            'password' => $request ->password,
-        ];
 
         $data=[
             'name'=>$request->name,
@@ -48,14 +42,14 @@ class RegistrasiController extends Controller
             'password'=>Hash::make($request->password) 
         ];
         Penguna::create($data);
-        if(Auth::attempt($inforegister)){
+      
             
             return redirect('/.das')->with('success', 'berhasil register');
-        }else{
+      
             //gagal
             //return 'gagal';
             return redirect('/register')->withErrors('Username dan password yang di masukan tidak valid');
-        }
+       
 
     }
 }

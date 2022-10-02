@@ -31,6 +31,7 @@ class SesionController extends Controller
             //kalau galau
             //return 'sukses';
             return redirect('dashboard')->with('success','berhasil login');
+            return redirect('/.das')->with('success', 'berhasil register');
         }else{
             //gagal
             //return 'gagal';
