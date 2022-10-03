@@ -4,6 +4,8 @@ use App\Http\Controllers\DataPengunaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GejalaController;
+use App\Http\Controllers\IdentifikasiController;
+use App\Http\Controllers\IdentifikasiPengunaController;
 use App\Http\Controllers\PengetahuanController;
 use App\Http\Controllers\PengunaHomeController;
 use App\Http\Controllers\PengunaInfoController;
@@ -58,6 +60,10 @@ Route::get('/register',[RegistrasiController::class, 'index']);
 Route::get('/forgot',[PengunaRegisterController::class, 'forgot']);
 Route::post('/regis',[RegistrasiController::class, 'create']);
 
+//identifikasi
+Route::get('identifikasi',[IdentifikasiController::class, 'index']);
 
+//indentifikasipenguna
+Route::get('identifikasipenguna',[IdentifikasiPengunaController::class, 'index']);
 
 Route::get('/.das', [PengunaHomeController::class, 'dashboards'])->name('dashboards');

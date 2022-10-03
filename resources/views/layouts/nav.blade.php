@@ -41,7 +41,7 @@
                     <span>Basis Pengetahuan </span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="identifikasipenguna">
                     <i class="fas fa-fw fa-search"></i>
                     <span>identifikasi</span></a>
             </li>

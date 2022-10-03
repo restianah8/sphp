@@ -41,7 +41,7 @@
                     <li>
                         <li class="menu-item dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <a href = ""> <i class="menu-icon fa fa-table"></i> Identifikasi</a>
+                            <a href = "identifikasi"> <i class="menu-icon fa fa-table"></i> Identifikasi</a>
                             <h3 class="menu-title"></h3>
                     </li>
                     <li>
