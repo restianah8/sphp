@@ -15,6 +15,7 @@ use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\PublikHomeController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\SesionController;
+use App\Http\Controllers\TentangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
   Route::get('gejala/edit/{gejala}', [GejalaController::class, 'edit']);
   Route::put('gejala/update/{gejala}', [GejalaController::class, 'update'])->name('gejala.update');
   Route::get('gejala/hapus/{gejala}', [GejalaController::class, 'destroy']);
+  Route::get('/gejala/show/{gejala}', [GejalaController::class, 'show'])->name('gejala.show');
 
   //penyakit
   Route::resource('penyakit',PenyakitController::class);
@@ -51,6 +53,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
   Route::resource('pengunpengetahuan',PengunaPengetahuanController::class);
   Route::resource('datapenguna',DataPengunaController::class);
 
+//tentang sistem penguna
+Route::get('/tentang',[TentangController::class, 'index']);
 
 //login
 Route::get('/sesi',[SesionController::class, 'index']);
@@ -62,8 +66,10 @@ Route::post('/regis',[RegistrasiController::class, 'create']);
 
 //identifikasi
 Route::get('identifikasi',[IdentifikasiController::class, 'index']);
+Route::get('/identifikasi/result',[IdentifikasiController::class, 'result']);
 
 //indentifikasipenguna
 Route::get('identifikasipenguna',[IdentifikasiPengunaController::class, 'index']);
+Route::get('/identifikasipenguna/result',[IdentifikasiPengunaController::class, 'result']);
 
 Route::get('/.das', [PengunaHomeController::class, 'dashboards'])->name('dashboards');

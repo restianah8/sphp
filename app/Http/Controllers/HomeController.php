@@ -15,10 +15,15 @@ class HomeController extends Controller
     }
     public function dashboard()
     {
-       $penyakit= Penyakit::all()->count();
+    //    $penyakit= Penyakit::all()->count();
+       $gejala= Gejala::all()->count();
        
 
-        return view('dashboard')->with('penyakit', $penyakit);
+        return view('dashboard')->with( 'gejala', $gejala) ;
         
+    }
+
+    public function riwayat(){
+   
     }
 }

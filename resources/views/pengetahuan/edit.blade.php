@@ -1,7 +1,7 @@
 @extends('layout.template')
 
 @section('title')
-   Edit Data Hama Dan Penyakit
+   Edit Data pengetahuan pakar
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
     <div class="col-sm-4">
         <div class="page-header float-left">
             <div class="page-title">
-                <h1>Edit Data Hama Dan Penyakit</h1>
+                <h1>Edit Data pengetahuan pakar</h1>
             </div>
         </div>
     </div>
@@ -30,28 +30,44 @@
                       
                       <div id="pay-invoice">
                           <div class="card-body">
+                          @foreach ($pengetahuan as $item)
                               <form action="{{'/pengetahuan/'.$pengetahuan->id}}" method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
-                               <div class="mb-3">
-                                <h1>kode :{{$pengetahuan->kode}}</h1>
-                               </div>
+                           @endforeach
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="penyakit">nama hama dan penyakit:</label>
+                                                <select name="id_penyakit" id="penyakit" class="form-control">
+                                                    @foreach ($penyakit as $item)
+                                                        <option value="{{ $item->id }}" 
+                                                        @if ($item->id == $pengetahuan->id_penyakit) 
+                                                            selected="selected" 
+                                                        @endif>
+                                                            {{ $item->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gejala">gejala:</label>
+                                                <select name="id_gejala" id="gejala" class="form-control">
+                                                    @foreach ($gejala as $item)
+                                                        <option value="{{ $item->id }}" 
+                                                        @if ($item->id == $pengetahuan->id_gejala) 
+                                                            selected="selected" 
+                                                        @endif>
+                                                            {{ $item->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
-                               <div class="form-group">
-                                    <label for="kode">Kode:</label>
-                                    <input type="text" name="kode" id="kode" 
-                                    class="form-control" value = "{{$pengetahuan->kode}}">
-                                </div>
                                 <div class="form-group">
-                                    <label for="hama_dan_penyakit">hama_dan_penyakit :</label>
-                                    <input type="text" name="hama_dan_penyakit" id="hama_dan_penyakit" 
-                                    class="form-control" value = "{{$pengetahuan->hama_dan_penyakit}}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="gejala">gejala:</label>
-                                    <input type="text" name="gejala" id="gejala" 
-                                    class="form-control" value = "{{$pengetahuan->gejala}}">
+                                    <label for="bobot">bobot:</label>
+                                    <input type="text" name="bobot" id="bobot" 
+                                    class="form-control" value = "{{$pengetahuan->bobot}}">
                                 </div>
 
                                 <div class="form-group text-right">

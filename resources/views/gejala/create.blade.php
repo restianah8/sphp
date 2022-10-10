@@ -27,22 +27,24 @@
                       <!-- Credit Card -->
                       <div id="pay-invoice">
                           <div class="card-body">
-                              <form action="{{ route('gejala.simpan') }}" method="post" novalidate="novalidate">
+                              <form action="{{ route('gejala.simpan') }}" method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                
                                 <div class="form-group">
                                     <label for="kode">Kode:</label>
-                                    <input type="text" name="kode" id="kode" class="form-control" required="required">
+                                    <input type="text" name="kode" id="kode" class="form-control" 
+                                    required="required" value = "{{Session::get ('kode')}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="nama">Nama Gejala:</label>
-                                    <input type="text" name="nama" id="nama" class="form-control" required="required">
+                                    <input type="text" name="nama" id="nama" class="form-control" 
+                                    required="required" value = "{{Session::get ('nama')}}">
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label for="bobot">Bobot:</label>
-                                    <input type="text" name="bobot" id="bobot" class="form-control" required="required">
+                                    <label for="gambar">gambar:</label>
+                                    <input type="file" class="form-control" name="gambar" id="gambar" >
                                 </div>
-
                                 <div class="form-group text-right">
                                     <input type="submit" value="Tambah Data" class="btn btn-primary">
                                 </div>

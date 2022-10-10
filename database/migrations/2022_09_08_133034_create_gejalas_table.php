@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode');
             $table->string('nama');
-            $table->integer('bobot');
+            $table-> string('gambar');
             $table->timestamps();
         });
     }

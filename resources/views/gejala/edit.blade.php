@@ -27,20 +27,27 @@
                       <!-- Credit Card -->
                       <div id="pay-invoice">
                           <div class="card-body">
-                              <form action="{{ route('gejala.update', $gejala->id) }}" method="post" novalidate="novalidate">
+                              <form action="{{ route('gejala.update', $gejala->id) }}" method="post" novalidate="novalidate" 
+                              enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
                                     <label for="kode">Kode :</label>
-                                    <input type="text" name="kode" value="{{ $gejala->kode }}"  id="kode" class="form-control" required="required">
+                                    <input type="text" name="kode" value="{{ $gejala->kode }}"  id="kode" 
+                                    class="form-control" required="required">
                                 </div>
                                 <div class="form-group">
                                     <label for="nama">Nama :</label>
-                                    <input type="text" name="nama" value="{{ $gejala->nama }}"  id="nama" class="form-control" required="required">
+                                    <input type="text" name="nama" value="{{ $gejala->nama }}"  id="nama" 
+                                    class="form-control" required="required">
                                 </div>
+                                @if($gejala->gambar)
+                                    <img style="max-width : 50px; max-height:50px" src="{{ url('gambar').'/'.
+                                    $gejala->gambar}}"/>
+                                @endif
                                 <div class="form-group">
-                                    <label for="bobot">Bobot :</label>
-                                    <input type="text" name="bobot" value="{{ $gejala->bobot }}"  id="bobot" class="form-control" required="required">
+                                    <label for="gambar">gambar:</label>
+                                    <input type="file" class="form-control" name="gambar" id="gambar" >
                                 </div>
 
                                 <div class="form-group text-right">

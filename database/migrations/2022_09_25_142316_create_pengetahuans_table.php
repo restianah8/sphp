@@ -15,11 +15,18 @@ return new class extends Migration
     {
         Schema::create('pengetahuan', function (Blueprint $table) {
             $table->id();
-            $table->string ('kode');
-            $table->string ('hama_dan_penyakit');
-            $table->string ('gejala');
-            
+            $table->unsignedBigInteger('id_penyakit')->nullable();
+            $table->unsignedBigInteger('id_gejala')->nullable();
+            $table->decimal('bobot', 2, 1);
+
             $table->timestamps();
+            $table->foreign('id_penyakit')->references('id')->on('penyakit')
+            ->onUpdate('no action')
+            ->onDelete('cascade');
+            $table->foreign('id_gejala')->references('id')->on('gejala')
+            ->onUpdate('no action')
+            ->onDelete('cascade');
+            
 
           
         });

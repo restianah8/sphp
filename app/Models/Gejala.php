@@ -9,7 +9,7 @@ class Gejala extends Model
 {
     use HasFactory;
     public $table = 'gejala';
-    protected $fillable = [ 'id','kode','nama','bobot'];
+    protected $fillable = [ 'id','kode','nama','gambar'];
     protected $primaryKey = 'id';
     public $timestamps = false;
 }

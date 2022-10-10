@@ -20,7 +20,7 @@
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
                         <h4 class="mb-0">
-                            <span class="count" >{{$penyakit}}</span>
+                            <span class="count" ></span>
                         </h4>
                         <p class="text-light">Hama dan Penyakit</p>
 
@@ -32,7 +32,7 @@
 
                 </div>
             </div> 
-           
+            
             <div class="col-sm-6 col-lg-3">
                 <div class="card text-white bg-flat-color-3">
                     <div class="card-body pb-0">
@@ -42,9 +42,9 @@
                             </button>
                         </div>
                         <h4 class="mb-0">
-                            <span class="count"></span>
+                            <span class="count">{{$gejala}}</span>
                         </h4>
-                        <p class="text-light">Data Gejala</p>
+                        <p class="text-light">Gejala</p>
 
                     </div>
 
@@ -65,7 +65,7 @@
                             </button>
                         </div>
                         <h4 class="mb-0">
-                            <span class="count">5</span>
+                            <span class="count"></span>
                         </h4>
                         <p class="text-light">Basis pengetahuan</p>
 
@@ -101,5 +101,57 @@
                     </div>
                 </div>
             </div>
+
+            <div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">Kelola Hasil Identifikasi</strong>
+                </div>
+                <div class="card-body">
+          <table  id="bootstrap-data-table" class="table table-striped table-bordered">
+           <thead>
+            
+                <tr>
+                    <th>no </th>
+                    <th>Nama </th>
+                    <th>Jenis kelamin </th>
+                    <th>Umur</th>
+                    <th>Alamat</th>
+                    <th>Tanggal kunsoltasi</th>
+                    <th>Presentase</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+     
+                <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>      
+                        <td></td>  
+                        <td></td>  
+                        <td></td>  
+                    
+                  <td>
+                            <a href='' class="btn btn-sm btn-info text-white"> <i class="fa fa-eye"></i>
+                        </td>
+                        
+                </tr>
+         
+           </tbody>
+          </table>
+                </div>
+            </div>
+        </div>
+
+
+     </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
             <!--/.col-->
             @endsection

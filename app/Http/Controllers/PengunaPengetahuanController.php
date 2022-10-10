@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gejala;
 use App\Models\Pengetahuan;
+use App\Models\Penyakit;
 use Illuminate\Http\Request;
 
 class PengunaPengetahuanController extends Controller
@@ -15,7 +17,9 @@ class PengunaPengetahuanController extends Controller
     public function index()
     {
         $pengetahuan = Pengetahuan ::all();
-        return view('pengunapengetahuan.index',compact('pengetahuan'));
+        $penyakit = Penyakit::all();
+        $gejala = Gejala ::all();
+        return view('pengunapengetahuan.index',compact('pengetahuan','penyakit','gejala'));
     }
 
     /**

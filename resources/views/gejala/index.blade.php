@@ -36,7 +36,7 @@
                     <th>No </th>
                     <th>Kode </th>
                     <th>Nama Gejala</th>
-                    <th>Bobot</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -47,15 +47,18 @@
                 <td>{{$item ->id}}</td>
                 <td>{{$item ->kode}}</td>
                 <td>{{$item->nama}}</td>
-                <td>{{$item ->bobot}}</td>
-                 
-                        
+                <td>
+                    @if($item->gambar)
+                        <img style="max-width : 50px; max-height:50px" src="{{ url('gambar').'/'.
+                        $item->gambar}}"/>
+                    @endif
+                  </td>  
                  
                   <td>
                             <a href="gejala/edit/{{$item->id}}" class=" mb-2 fa fa-edit bg-warning p-2 text-white rounded"></a>
                             <a href="gejala/hapus/{{$item->id}}" onclick="return confirm('Yakin Ingin Menghapus Data')"
                                 class=" mb-2 fa fa-trash bg-danger p-2 text-white rounded"></a>
-                            <a href="" class="btn btn-sm btn-info text-white"> <i class="fa fa-eye"></i>
+                            <a href="{{ route('gejala.show', $item->id) }}" class="btn btn-sm btn-info text-white"> <i class="fa fa-eye"></i>
                         </td>
                         </td>
                         

@@ -30,21 +30,31 @@
                               <form action="/pengetahuan" method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                
-                                <div class="form-group">
-                                    <label for="kode">Kode:</label>
-                                    <input type="text" name="kode" id="kode" 
-                                    class="form-control" value = "{{Session::get ('kode')}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="hama_dan_penyakit">hama_dan_penyakit :</label>
-                                    <input type="text" name="hama_dan_penyakit" id="hama_dan_penyakit" 
-                                    class="form-control" value = "{{Session::get ('hama_dan_penyakit')}}">
-                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_penyakit">Nama hama dan penyakit:</label>
+                                            <select name="id_penyakit" id="penyakit" class="form-control">
+                                            @foreach ($penyakit as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_gejala">gejala:</label>
+                                            <select name="id_gejala" id="gejala" class="form-control">
+                                            @foreach ($gejala as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                       </div>
+                                    </div>
 
                                 <div class="form-group">
-                                    <label for="gejala">gejala:</label>
-                                    <input type="text" name="gejala" id="gejala" 
-                                    class="form-control" value = "{{Session::get ('gejala')}}">
+                                    <label for="bobot">bobot:</label>
+                                    <input type="text" name="bobot" id="bobot" 
+                                    class="form-control" value = "{{Session::get ('bobot')}}">
                                 </div>
 
                                 <div class="form-group text-right">

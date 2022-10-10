@@ -34,9 +34,9 @@
             
                 <tr>
                     <th>no </th>
-                    <th>Kode </th>
                     <th>Nama Hama Dan Penyakit </th>
                     <th>Gejala</th>
+                    <th>bobot</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -45,9 +45,9 @@
             @foreach ($pengetahuan as $item)
                 <tr>
                     <td>{{$item ->id}}</td>
-                    <td>{{$item ->kode}}</td>
-                    <td>{{$item -> hama_dan_penyakit}}</td>
-                    <td>{{$item ->gejala}}</td>
+                    <td>{{$item -> penyakit->nama}}</td>
+                    <td>{{$item ->gejala->nama}}</td>
+                    <td>{{$item ->bobot}}</td>
                     <td>
                          <a href='{{url('/pengetahuan/'. $item -> id. '/edit')}}' class=" mb-2 fa fa-edit bg-warning p-2 text-white rounded"></a>
                          <form class = 'd-inline' action="{{'/pengetahuan/'.$item ->id}}"

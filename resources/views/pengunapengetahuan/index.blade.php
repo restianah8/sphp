@@ -21,9 +21,8 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
             
-                                    <tr>
+                                <tr>
                                         <th>no </th>
-                                        <th>Kode </th>
                                         <th>Nama Hama Dan Penyakit </th>
                                         <th>Gejala</th>
                                         
@@ -34,9 +33,9 @@
                                 @foreach ($pengetahuan as $item)
                                     <tr>
                                         <td>{{$item ->id}}</td>
-                                        <td>{{$item ->kode}}</td>
-                                        <td>{{$item -> hama_dan_penyakit}}</td>
-                                        <td>{{$item ->gejala}}</td>
+                                        <td>{{$item -> penyakit->nama}}</td>
+                                        <td>{{$item ->gejala->nama}}</td>
+                                        
                                         
                                     </tr>
                                   @endforeach

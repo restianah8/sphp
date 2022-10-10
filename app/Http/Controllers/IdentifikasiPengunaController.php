@@ -12,4 +12,9 @@ class IdentifikasiPengunaController extends Controller
         $gejala = Gejala::all();
     return view('identifikasipenguna/index',compact('gejala'));
     }
+
+    public function result ()
+    {
+        return view('identifikasipenguna/result');
+    }
 }

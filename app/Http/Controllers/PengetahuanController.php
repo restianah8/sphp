@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gejala;
 use App\Models\Pengetahuan;
+use App\Models\Penyakit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -16,17 +18,22 @@ class PengetahuanController extends Controller
     public function index()
     {
         $pengetahuan = Pengetahuan ::all();
-        return view('pengetahuan.index',compact('pengetahuan'));
+        $penyakit = Penyakit ::all();
+        $gejala = Gejala ::all();
+        return view('pengetahuan.index',compact('pengetahuan','penyakit','gejala' ));
     }
 
-    /**
+    /**::with('jenis_bencana', 'kabupaten', 'kecamatan', 'kelurahan')-;
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view ('pengetahuan/create');
+        $pengetahuan = Pengetahuan ::all();
+        $penyakit = Penyakit ::all();
+        $gejala = Gejala ::all();
+        return view ('pengetahuan/create',compact('penyakit','gejala' ));
     }
 
     /**
@@ -37,25 +44,27 @@ class PengetahuanController extends Controller
      */
     public function store(Request $request)
     {
-        Session :: flash('kode',$request -> kode );
-        Session :: flash('hama_dan_penyakit',$request -> hama_dan_penyakit );
-        Session :: flash('gejala',$request -> gejala);
-        $request->validate([
-            'kode'=>'required',
-            'hama_dan_penyakit'=>'required',
-            'gejala'=>'required',
+        Session :: flash('bobot',$request -> bobot );
+        $request->validate ([
+            'id_penyakit' => 'required',
+            'id_gejala' => 'required',
+            'bobot' => 'required|min:3|max:3|regex:/^[0-9\.]*$/iu',
         ], [
-            'kode'=>'kode wajib di isi',
-            'hama_dan_penyakit.required'=>'nama wajib di isi',
-            'gejala.required' =>'Diskripsi wajib di isi',
+            'penyakit.required'=>'penyakit wajib di isi',
+            'gejala.required'=>'gejala wajib di isi',
+            'bobot.required' =>'bobot wajib di isi',
         ]);
-      
 
         $pengetahuan = [
-            'kode'=> $request -> input('kode'),
-            'hama_dan_penyakit'=> $request -> input('hama_dan_penyakit'),
-            'gejala'=> $request -> input('gejala'),
+            'id_penyakit'=> $request -> input('id_penyakit'),
+            'id_gejala'=> $request -> input('id_gejala'),
+            'bobot'=> $request -> input('bobot'),
+            
         ];
+
+    session()->flash('notifikasi', '<strong>Berhasil!</strong> Data disimpan.');
+        
+       
         Pengetahuan ::create($pengetahuan);
         return redirect('pengetahuan')->with('succses', 'berhasil memasukan data');
     }
@@ -82,8 +91,12 @@ class PengetahuanController extends Controller
      */
     public function edit($id)
     {
-        $pengetahuan = Pengetahuan :: where('id', $id)->first();
-        return view ('pengetahuan/edit') -> with ('pengetahuan',$pengetahuan);
+        $pengetahuan = Pengetahuan::findOrFail($id);
+        $penyakit = Penyakit::orderBy('nama')->get();
+        $gejala = Gejala::orderBy('nama')->get();
+
+        return view('pengetahuan/edit', compact('pengetahuan', 'penyakit', 'gejala'));
+       
     }
 
     /**
@@ -95,19 +108,21 @@ class PengetahuanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'kode'=>'required',
-            'hama_dan_penyakit'=>'required',
-            'gejala'=>'required',
+        $request->validate ([
+            'id_penyakit' => 'required',
+            'id_gejala' => 'required',
+            'bobot' => 'required|min:3|max:3|regex:/^[0-9\.]*$/iu',
         ], [
-            'kode.required'=>'kode  wajib di isi',
-            'hama_dan_penyakit.required'=>'hama dan penyakit  wajib di isi',
-            'gejala.required' =>'gejala wajib di isi',
+            'penyakit.required'=>'penyakit wajib di isi',
+            'gejala.required'=>'gejala wajib di isi',
+            'bobot.required' =>'bobot wajib di isi',
         ]);
+
         $pengetahuan = [
-            'kode'=> $request -> input('kode'),
-            'hama_dan_penyakit'=> $request -> input('hama_dan_penyakit'),
-            'gejala'=> $request -> input('gejala'),
+            'id_penyakit'=> $request -> input('id_penyakit'),
+            'id_gejala'=> $request -> input('id_gejala'),
+            'bobot'=> $request -> input('bobot'),
+            
         ];
 
 
