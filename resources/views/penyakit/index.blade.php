@@ -48,8 +48,8 @@
                 <td>{{$item ->id}}</td>
                 <td>{{$item ->kode}}</td>
                   <td>{{$item -> nama}}</td>
-                  <td>{{$item ->Diskripsi}}</td>
-                  <td>{{$item -> solosi}}</td>
+                  <td>{{\Str::limit ($item ->Diskripsi, 70)}}</td>
+                  <td>{{\Str::limit($item -> solosi, 70)}}</td>
                   <td>
                     @if($item->gambar)
                         <img style="max-width : 50px; max-height:50px" src="{{ url('gambar').'/'.

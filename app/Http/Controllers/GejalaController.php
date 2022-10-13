@@ -10,7 +10,7 @@ class GejalaController extends Controller
 {
     public function index()
     {
-      $gejala = Gejala::all()->count();
+      $gejala = Gejala::all();
  
         return view('gejala.index',compact('gejala'));
     }

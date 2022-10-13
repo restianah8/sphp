@@ -43,13 +43,13 @@
 
                                 <div class="form-group">
                                     <label for="Diskripsi">Diskripsi:</label>
-                                    <input type="text" name="Diskripsi" id="Diskripsi" 
+                                    <input type="text-align: justify;" name="Diskripsi" id="Diskripsi" 
                                     class="form-control" value = "{{Session::get ('Diskripsi')}}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="solosi">Solosi:</label>
-                                    <input type="text" name="solosi" id="solosi" 
+                                    <input type="text-align: justify;" name="solosi" id="solosi" 
                                     class="form-control" value = "{{Session::get ('solosi')}}">
                                 </div>
 

@@ -20,7 +20,7 @@
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
                         <h4 class="mb-0">
-                            <span class="count" ></span>
+                            <span class="count" >17</span>
                         </h4>
                         <p class="text-light">Hama dan Penyakit</p>
 
@@ -42,7 +42,7 @@
                             </button>
                         </div>
                         <h4 class="mb-0">
-                            <span class="count">{{$gejala}}</span>
+                            <span class="count">49</span>
                         </h4>
                         <p class="text-light">Gejala</p>
 
@@ -65,7 +65,7 @@
                             </button>
                         </div>
                         <h4 class="mb-0">
-                            <span class="count"></span>
+                            <span class="count">10</span>
                         </h4>
                         <p class="text-light">Basis pengetahuan</p>
 
@@ -127,22 +127,22 @@
                 </tr>
             </thead>
             <tbody>
-     
+     @foreach ($riwayat as $item)
                 <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>      
-                        <td></td>  
-                        <td></td>  
-                        <td></td>  
+                        <td>{{$item ->id}}</td>
+                        <td>{{$item ->nama}}</td>
+                        <td>{{$item ->jenis_kelamin}}</td>
+                        <td>{{$item ->umur}}</td>      
+                        <td>{{$item ->alamat}}</td>  
+                        <td>{{$item ->created_at->format('Y-m-d') }}</td>  
+                        <td>{{$item ->response}}</td>  
                     
                   <td>
                             <a href='' class="btn btn-sm btn-info text-white"> <i class="fa fa-eye"></i>
                         </td>
                         
                 </tr>
-         
+         @endforeach
            </tbody>
           </table>
                 </div>

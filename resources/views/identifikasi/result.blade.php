@@ -1,13 +1,21 @@
-
+@extends('layout.template')
 
 @section('title')
      Hasil Identifikasi
 @endsection
 
-
-<div class="container-fluid">
-<h1 class="h3 mb-2 text-gray-800">Hasil Identifikasi</h1>
-                    <p class="mb-4"> 
+@section('content')
+<!-- <div class="container"> -->
+<div class="text-center">
+    <div class="col-sm-12">
+       
+            <div class="page-title">
+                <h1>Hasil Identifikasi</h1>
+            </div>
+       
+    </div>
+</div>
+                    
 <div class="content mt-3">
     <div class="animated fadeIn">
         <div class="row">
@@ -15,21 +23,32 @@
                 <div class="card">
                    <div id="pay-invoice">
                        <div class="card-body">
-                       <tbody>
-                    <tr>
-                        <td>Penyakit</td>
-                        <td></td>
-                        <td rowspan="3" width="30%"><img src="" class="" alt=""></td>
-                    </tr>
-                    <tr>
-                        <td>Persentase</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Pengendalian</td>
-                        <td></td>
-                    </tr>
-                </tbody>
+                       
+            
+    <table class="tg">
+        <tbody>
+            
+                
+                <p class="text-center">Berdasarkan gejala yang dipilih</p>
+                <p class="text-center">Tanaman Jagung Anda Terkena Hama Dan Penyakit</p>
+                
+                <tr>
+                <td class="text-center"></td>
+                <td class="tg-center" rowspan="4" width="30%"><img src="" width="" alt=""></td>
+            </tr>
+            <tr>
+            
+            <tr>
+                <td class="tg-left"><strong>Persentase</strong></td>
+                <td class="tg-left"></td>
+            </tr>
+            <tr>
+                <td class="tg-left"><strong>Pengendalian</strong></td>
+                <td class="tg-left"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
                                 </div>
                         </div>
                     </div>
@@ -39,3 +58,4 @@
     </div>
 </div>
 </div>
+@endsection

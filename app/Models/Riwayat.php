@@ -11,6 +11,7 @@ class Riwayat extends Model
     public $table = 'riwayat';
     protected $fillable = [ 'id', 'Nama', 'jenis_kelamin','umur','alamat','response','hasl'];
     protected $primaryKey = 'id';
+    protected $dates = ['created_at'];
     public $timestamps = false;
 
     

@@ -21,20 +21,12 @@
                 </div>
               
                 <h1>{{$penyakit->kode}}</h1>
+                    <h1>kode : {{$penyakit->kode}}</h1>
+                    <h1>nama  : {{$penyakit->nama}}</h1> 
+                    <h1>Diskripsi : </h1>{{$penyakit->Diskripsi}}
+                    <br><br>
+                    <h1>solosi:</h1> {{$penyakit->solosi}}
                 
-                <p>
-                    <b>kode</b>
-                    <br>{{$penyakit->kode}}</br>
-                </p>
-                <p>
-                    <b>nama  : </b> {{$penyakit->nama}}
-                </p>
-                <p>
-                    <b>Diskripsi <br> </b>{{$penyakit->Diskripsi}}
-                </p>
-                <p>
-                    <b>solosi</b> <br>{{$penyakit->solosi}}
-                </p>
                 
             </div>
         </div>

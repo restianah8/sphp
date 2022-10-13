@@ -67,6 +67,7 @@ Route::post('/regis',[RegistrasiController::class, 'create']);
 //identifikasi
 Route::get('identifikasi',[IdentifikasiController::class, 'index']);
 Route::get('/identifikasi/result',[IdentifikasiController::class, 'result']);
+Route::post('/identifikasi/proses',[IdentifikasiController::class, 'proses']);
 
 //indentifikasipenguna
 Route::get('identifikasipenguna',[IdentifikasiPengunaController::class, 'index']);
