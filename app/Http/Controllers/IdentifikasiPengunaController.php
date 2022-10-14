@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gejala;
+use App\Models\Pengetahuan;
 use App\Models\Penyakit;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ class IdentifikasiPengunaController extends Controller
 {
     public function index()
     {
-        $gejala = Gejala::all();
+        $gejala = Pengetahuan::all();
     return view('identifikasipenguna/index',compact('gejala'));
     }
 

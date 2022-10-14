@@ -20,7 +20,8 @@
                 <div class="card">
                    <div id="pay-invoice">
                        <div class="card-body">
-                            <form action="/identifikasi/result" method="get">
+                            <form action="/identifikasi/result" method="post">
+                                @csrf
                             <div class="text-center">
                                
                                     <h3 ><b>Identitas</b></h3>
@@ -57,18 +58,18 @@
                                                 <div class="row  md-4 mt-4">
                                                     @foreach ($gejala as $item)
                                                         <div class="col-xl-3 col-md-5 mb-2 ">
-                                                        <div class="card" style="width: 15rem;">
-                                                            <img src="{{ url('gambar').'/'.$item->gambar}}" class="card-img-top" alt="image" height="150px" width="50px" >
-                                                                <div class="card-body">
-                                                                <div class="col-sm-20 offset-sm-0">
+                                                    <div class="card" style="width: 15rem;">
+                                                        <img src="{{ url('gambar').'/'.$item->gambar}}" class="card-img-top" alt="image" height="150px" width="80px" >
+                                                            <div class="card-body">
+                                                            <div class="col-sm-20 offset-sm-0">
                                                                 <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" id="gridCheck1">
-                                                                        <label class="form-check-label" for="gridCheck1">{{$item->nama}}</label>
-                                                                        </div>
-                                                                 </div>
+                                                                        <input class="form-check-input" type="checkbox" id="kode[]" name="kode[]" value="{{$item->id}}">
+                                                                        <label class="form-check-label" for="">{{$item->nama}}</label>
                                                                 </div>
                                                             </div>
-                                                        </div> 
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                     @endforeach
                                                 </div>
                                                                   
