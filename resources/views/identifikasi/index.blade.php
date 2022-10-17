@@ -20,7 +20,8 @@
                 <div class="card">
                    <div id="pay-invoice">
                        <div class="card-body">
-                            <form action="/identifikasi/result" method="get">
+                            <form action="/identifikasi/result" method="post">
+                                @csrf
                             <div class="text-center">
                                
                                     <h3 ><b>Identitas</b></h3>
@@ -29,25 +30,25 @@
                                     <div class="row mb-3">
                                         <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                                         <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="nama">
+                                        <input type="text" name="nama" class="form-control" id="nama">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="jenis" class="col-sm-2 col-form-label">jenis kelamin</label>
                                         <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="jenis">
+                                        <input type="text" name="jenis"  class="form-control" id="jenis">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="umur" class="col-sm-2 col-form-label">Umur</label>
                                         <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="umur">
+                                        <input type="text" name="umur"class="form-control" id="umur">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                                         <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="alamat">
+                                        <input type="text" name="alamat"  class="form-control" id="alamat">
                                         </div>
                                     </div>
                                     
@@ -57,18 +58,18 @@
                                                 <div class="row  md-4 mt-4">
                                                     @foreach ($gejala as $item)
                                                         <div class="col-xl-3 col-md-5 mb-2 ">
-                                                        <div class="card" style="width: 15rem;">
-                                                            <img src="{{ url('gambar').'/'.$item->gambar}}" class="card-img-top" alt="image" height="150px" width="50px" >
-                                                                <div class="card-body">
-                                                                <div class="col-sm-20 offset-sm-0">
+                                                    <div class="card" style="width: 15rem;">
+                                                        <img src="{{ url('gambar').'/'.$item->gambar}}" class="card-img-top" alt="image" height="150px" width="80px" >
+                                                            <div class="card-body">
+                                                            <div class="col-sm-20 offset-sm-0">
                                                                 <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" id="gridCheck1">
-                                                                        <label class="form-check-label" for="gridCheck1">{{$item->nama}}</label>
-                                                                        </div>
-                                                                 </div>
+                                                                        <input class="form-check-input" type="checkbox" id="kode[]" name="kode[]" value="{{$item->id}}">
+                                                                        <label class="form-check-label" for="">{{$item->nama}}</label>
                                                                 </div>
                                                             </div>
-                                                        </div> 
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                     @endforeach
                                                 </div>
                                                                   
@@ -86,6 +87,3 @@
 <!-- // -->
 
 @endsection
-
-
-

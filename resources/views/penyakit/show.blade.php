@@ -21,11 +21,13 @@
                 </div>
               
                 <h1>{{$penyakit->kode}}</h1>
-                    <h1>kode : {{$penyakit->kode}}</h1>
-                    <h1>nama  : {{$penyakit->nama}}</h1> 
-                    <h1>Diskripsi : </h1>{{$penyakit->Diskripsi}}
+                    <h1>Kode : {{$penyakit->kode}}</h1>
+                    <h1>Nama  : {{$penyakit->nama}}</h1> 
+                    <h1> Diskripsi : </h1>
+                    <div class=" text-justify">{{$penyakit->Diskripsi}}</div>
                     <br><br>
-                    <h1>solosi:</h1> {{$penyakit->solosi}}
+                    <h1 >Solusi:</h1> 
+                    <div class= "text-lg text-slete-700 font-normal" >{{$penyakit->solosi}}</div>
                 
                 
             </div>

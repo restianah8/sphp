@@ -61,12 +61,12 @@ Route::get('/sesi',[SesionController::class, 'index']);
 Route::post('/sesi/login',[SesionController::class, 'login']);
 Route::get('/sesi/logout',[SesionController::class, 'logout']);
 Route::get('/register',[RegistrasiController::class, 'index']);
-Route::get('/forgot',[PengunaRegisterController::class, 'forgot']);
+
 Route::post('/regis',[RegistrasiController::class, 'create']);
 
 //identifikasi
 Route::get('identifikasi',[IdentifikasiController::class, 'index']);
-Route::get('/identifikasi/result',[IdentifikasiController::class, 'result']);
+Route::post('/identifikasi/result',[IdentifikasiController::class, 'result']);
 Route::post('/identifikasi/proses',[IdentifikasiController::class, 'proses']);
 
 //indentifikasipenguna
