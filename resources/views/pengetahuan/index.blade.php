@@ -45,7 +45,7 @@
             @foreach ($pengetahuan as $item)
                 <tr>
                     <td>{{$item ->id}}</td>
-                    <td>{{$item -> penyakit->nama}}</td>
+                    <td>{{$item ->penyakit->nama}}</td>
                     <td>{{$item ->gejala->nama}}</td>
                     <td>{{$item ->bobot}}</td>
                     <td>

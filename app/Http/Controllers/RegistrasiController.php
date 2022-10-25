@@ -44,7 +44,7 @@ class RegistrasiController extends Controller
         Penguna::create($data);
       
             
-            return redirect('/.das')->with('success', 'berhasil register');
+            return redirect('/.tem')->with('success', 'berhasil register');
       
             //gagal
             //return 'gagal';

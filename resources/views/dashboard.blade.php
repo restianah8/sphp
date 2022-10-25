@@ -121,7 +121,7 @@
                     <th>Jenis kelamin </th>
                     <th>Umur</th>
                     <th>Alamat</th>
-                    <th>Tanggal kunsoltasi</th>
+                     <th>hasil</th>
                     <th>Presentase</th>
                     <th>Aksi</th>
                 </tr>
@@ -134,7 +134,7 @@
                         <td>{{$item ->jenis_kelamin}}</td>
                         <td>{{$item ->umur}}</td>      
                         <td>{{$item ->alamat}}</td>  
-                        <td>{{$item ->created_at->format('Y-m-d') }}</td>  
+                          <td>{{$item ->hasil}}</td>  
                         <td>{{$item ->response}}</td>  
                     
                   <td>

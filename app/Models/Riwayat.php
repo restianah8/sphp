@@ -9,7 +9,7 @@ class Riwayat extends Model
 {
     use HasFactory;
     public $table = 'riwayat';
-    protected $fillable = [ 'id', 'Nama', 'jenis_kelamin','umur','alamat','response','hasl'];
+    protected $fillable = [ 'id', 'nama', 'jenis_kelamin','umur','alamat','response','hasil'];
     protected $primaryKey = 'id';
     protected $dates = ['created_at'];
     public $timestamps = false;

@@ -25,30 +25,26 @@
                        <div class="card-body">
                        
             
-    <table class="tg">
-        <tbody>
-            
-                
-                <p class="text-center">Berdasarkan gejala yang dipilih</p>
-                <p class="text-center">Tanaman Jagung Anda Terkena Hama Dan Penyakit</p>
-                
-                <tr>
-                <td class="text-center"></td>
-                <td class="tg-center" rowspan="4" width="30%"><img src="" width="" alt=""></td>
-            </tr>
-            <tr>
-            
-            <tr>
-                <td class="tg-left"><strong>Persentase</strong></td>
-                <td class="tg-left"></td>
-            </tr>
-            <tr>
-                <td class="tg-left"><strong>Pengendalian</strong></td>
-                <td class="tg-left"></td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+                    <table class="tg">
+                        <tbody>
+                            
+                            @for ($i = 0; $i < count($penyakit); $i++)
+                            
+                                <h5 class="fs-2">Tanaman Jagung Anda Terkena Hama atau Penyakit  :  <b>{{$penyakit [$i]}}</b></h5>
+                                    <h5 class="">Presentasi : <b>{{$hasil [$i]}}</b></h5><br>
+                                    <h6 class="">berikut gambar dari :  <b>{{$penyakit [$i]}}</b></h6><br>
+                                            <img style="max-width : 250px; max-height:300px" 
+                                               src="{{ asset('gambar/' .$gambar[$i])}}" ><br><br>
+                                     <h5 class="">Solusi Dari <b>{{$penyakit [$i]}}</b> adalah sebagai berikut:</h5><br>
+                                    <h6 class="">{{$solosi [$i]}}</h6><br><br><br>
+                            
+                        @endfor
+                        <br>
+                        <br>
+                        <a href='/identifikasi' class="btn btn-secondary"><< Kembali</a>
+                                    </tbody>
+                                </table>
+                            </body>
                                 </div>
                         </div>
                     </div>

@@ -15,6 +15,7 @@ use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\PublikHomeController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\SesionController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TentangController;
 
 /*
@@ -71,6 +72,8 @@ Route::post('/identifikasi/proses',[IdentifikasiController::class, 'proses']);
 
 //indentifikasipenguna
 Route::get('identifikasipenguna',[IdentifikasiPengunaController::class, 'index']);
-Route::get('/identifikasipenguna/result',[IdentifikasiPengunaController::class, 'result']);
+Route::post('/identifikasipenguna/result',[IdentifikasiPengunaController::class, 'result']);
+Route::post('/identifikasipenguna/proses',[IdentifikasiPengunaController::class, 'proses']);
 
-Route::get('/.das', [PengunaHomeController::class, 'dashboards'])->name('dashboards');
+
+Route::get('/.tem', [TemplateController::class, 'template'])->name('template');

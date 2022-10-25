@@ -2,179 +2,344 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gejala;
 use App\Models\Pengetahuan;
 use App\Models\Penyakit;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class IdentifikasiPengunaController extends Controller
 {
     public function index()
     {
-        $gejala = Pengetahuan::all();
+        $gejala = Gejala::all();
     return view('identifikasipenguna/index',compact('gejala'));
     }
 
-    public function result ()
+    public function result (Request $request)
     {
-        // $riwayat = Riwayat::findOrFail();
-
-        // $penyakit = Penyakit::find(unserialize($riwayat->hasil)['id_penyakit']);
-
-       
-        return view('identifikasipenguna/result');
-    }
-
-    public function proses(Request $request)
-    {
+        Session :: flash('nama',$request -> nama );
+        Session :: flash('jenis_kelamin',$request -> jenis_kelamin);
+        Session :: flash('umur',$request -> umur );
+        Session :: flash('alamat',$request -> alamat );
         $request->validate([
             'nama'=>'required',
             'jenis_kelamin'=>'required',
             'umur'=>'required',
             'alamat'=>'required',
-            'response'=>'required',
-            'hasil'=>'required'
+            // 'gejala' => 'required|min:2',
+            
         ], [
-            'kode'=>'kode wajib di isi',
-            'nama.required'=>'nama wajib di isi',
-            'Diskripsi.required' =>'Diskripsi wajib di isi',
-            'alamat.required'=>'solosi wajib di isi',
-            'response.required'=>'silakan masukan gambar',
-            'hasil'=>'hasil',
+            'nama'=>'kode wajib di isi',
+            'jenis_kelamin.required'=>'nama wajib di isi',
+            'umur.required'=>'solosi wajib di isi',
+            'alamat.required'=>'silakan masukan gambar',
+            // 'gejala.required'=>'gejala wajib di isi',
+            // 'gejala.min' => 'Gejala yang di pilih minimal 2',
+           
         ]);
-    	$this->validate($request, [
-    			'nama' => 'required',
-    			'alamat' => 'required',
-    			'pekerjaan' => 'required',
-    			'gejala' => 'required|min:2'
-    		],
-            [
-                'gejala.min' => 'Gejala yang di pilih minimal 2',
-                'gejala.required' => 'Gejala wajib dipilih'
-            ]);
 
-        $gejala= DB::table('gejala')->whereIn('id', $request->input('gejala'))->get();
-
-    	$penyakit = Penyakit::orderBy('id', 'asc')->get();
-
-        // jika ada penyakit yang belum mendapatkan hubungan dengan gejala, maka dianggap terjadi kesalahan
-        $countPengetahuan = DB::table('pengetahuan')->groupBy('id_penyakit')->get(['id_penyakit'])->count();
-        $countPenyakit = $penyakit->count();
-        if ($countPenyakit != $countPengetahuan) {
-            session()->flash('danger', 'alert-danger');
-            session()->flash('notifikasi', 'Maaf, terjadi kesalahan. Silakan coba beberapa saat lagi.');
-
-            return redirect()->route('identifikasipenguna/index');
-        }
-
-        $dataStep1 = $this->prosesStep1($penyakit, $request);
-
-        $response = $this->prosesStep2($dataStep1, $request);
-
-        $hasil = collect($response)
-                        ->sortByDesc(function($value, $key) {
-                            return $value['persen'];
-                        })
-                        ->values()
-                        ->first();
         $riwayat = [
             'nama'=> $request -> input('nama'),
             'jenis_kelamin'=> $request -> input('jenis_kelamin'),
             'umur'=> $request -> input('umur'),
             'alamat'=> $request -> input('alamat'),
-            'response'=> $request -> input('response'),
-            'hasil'=> $request -> input('hasil'),
-            
+            'hasil'=> $request -> input('penyakit' ),
+            'response'=> $request -> input('hasil'),
         ];
+       
 
-        // save temp identity user
-        session()->flashInput($request->all());
+        $gejala = Gejala::all();
+        $allgetp = array();
+        $gjls = array();
+        $allgejala = array();
+       
+        $getpscount = array(); //count pil
+       
+        $perpenyakit = array();
+        $allinputbobot = array();
+        foreach($request->kode as $value){
+            array_push($allgejala, $value);
+            $getps = DB::table('pengetahuan')
+                    ->select('id_penyakit', 'id_gejala', 'bobot')
+                    ->where('id_gejala', $value)
+                    ->get();
+            array_push($getpscount, $getps[0]);
 
-    	return redirect()->route('identifikasipenguna.result');
-    }
-
-    private function prosesStep1($penyakit, Request $request)
-    {
-        $no = 0;
-        foreach ($penyakit as $item) {
-            $dataStep1[] = [
-                                'penyakit_id' => $item->id,
-                                'penyakit_nama' => $item->nama,
-                                'gambar' => $penyakit->gambar,
-                                'gejala' => null,
-                                'sum' => null,
-                                'persen' => null
-                            ];
-
-            $selectedGejala = collect($request->input('gejala'))
-                                    ->sort()
-                                    ->values()
-                                    ->all();
-
-            foreach ($selectedGejala as $gejala) {
-                $pengetahuan = DB::table('gejala_penyakit')
-                                ->select('gejala_penyakit.*')
-                                ->where('id_penyakit', $penyakit->id)
-                                ->where('id_gejala', $gejala)
-                                ->first();
-                $dataGejala = DB::table('gejala')
-                                ->select('gejala.*')
-                                ->where('id', $gejala)
-                                ->first();
-
-                if ($pengetahuan) {
-                    $bobot = $pengetahuan->bobot;
-                } else {
-                    $bobot = 0;
+            foreach($getps as $psc){
+                $idp = $psc->id_penyakit;
+                $bobotp = $psc->bobot;
+                if(!in_array($idp, $perpenyakit, true)){
+                    array_push($perpenyakit, $idp);
                 }
+                array_push($allinputbobot, $bobotp);
+            }
+           
+        }
+        
+        // echo '<br>==========================================================================<hr>';
+        
+        $coba_allgejala = array();
+        foreach($request->kode as $gjl){
+            $htngp = Pengetahuan::where('id_gejala', $gjl)->get();
 
-                $dataStep1[$no]['gejala'][] = [
-                                                'id_gejala' => $gejala,
-                                                'gejala_nama' => $dataGejala->nama,
-                                                'bobot' => $bobot,
-                                                'atas' => null,
-                                                'bawah' => null,
-                                                'dibagi' => null
-                                                ];
+            foreach ($htngp as $pp){
+                $md_array[$pp['id_penyakit']][] = $pp['bobot'];
             }
 
-            $no++;
         }
-
-        return $dataStep1;
-    }
-
-    private function prosesStep2($dataStep1, Request $request)
-    {
-        for ($i=0; $i < count($dataStep1); $i++) {
-            $selectedGejala = collect($request->input('gejala'))
-                                    ->sort()
-                                    ->values()
-                                    ->all();
-
-            for ($j=0; $j < count($selectedGejala); $j++) {
-                $dataStep1[$i]['gejala'][$j]['atas'] = $dataStep1[$i]['gejala'][$j]['bobot'] * $dataStep1[$i]['penyakit_probabilitas'];
-
-                for ($k=0; $k < count($dataStep1); $k++) {
-                    $bawah[] = $dataStep1[$k]['gejala'][$j]['bobot'] * $dataStep1[$k]['penyakit_probabilitas'];
-                }
-
-                $dataStep1[$i]['gejala'][$j]['bawah'] = array_sum($bawah);
-                unset($bawah);
-
-                $dibagi = $dataStep1[$i]['gejala'][$j]['atas'] / $dataStep1[$i]['gejala'][$j]['bawah'];
-                $dataStep1[$i]['gejala'][$j]['dibagi'] = round($dibagi, 6);
-                $arrDibagi[] = $dataStep1[$i]['gejala'][$j]['dibagi'];
+        
+        $pisahpenyakit = array();
+        $pisahskor = array();
+        foreach($perpenyakit as $exx){
+            
+            $pisah = $md_array[$exx];
+           
+            array_push($pisahpenyakit, $pisah);
+            
+            foreach ($pisah as $skor){
+                
+                array_push($pisahskor, $skor);
             }
+           
+        }
+        
+       
+        $namapenyakit = array();
+        $gambarpenyakit = array();
+        $solosipenyakit = array();
+        foreach($perpenyakit as $item){
+            $namap = Penyakit::where('id', $item)->get();
+            $name = $namap[0]['nama'];
+            $photo = $namap[0]['gambar'];
+            $solosi = $namap[0]['solosi'];
 
-            $dataStep1[$i]['sum'] = array_sum($arrDibagi);
-            unset($arrDibagi);
 
-            $dataStep1[$i]['persen'] = $dataStep1[$i]['sum'] * 100 / count($selectedGejala);
+            array_push($namapenyakit, $name);
+           array_push($gambarpenyakit, $photo);
+           array_push( $solosipenyakit,  $solosi);
+        }
+        
+        $done = array();
+        for($i=0; $i < count($pisahpenyakit); $i++){
+            $jumlahbobot = array_sum($pisahpenyakit[$i]);
+            $allpehx = array();
+            for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+                $allbobot = $pisahpenyakit[$i][$x];
+                $allph = $allbobot/$jumlahbobot;
+                $pehx = $allbobot * $allph;
+                array_push($allpehx, $pehx);
+            }
+            echo '<br>';
+            $jumlahallpehx = array_sum($allpehx);
+           
+            $allbayes = array();
+            for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+                $allbobot = $pisahpenyakit[$i][$x];
+                // echo 'Bobot:'.$allbobot.'--';
+                
+                $allphx = $allbobot/$jumlahbobot;
+                $allph = number_format($allphx,4);
+                // echo 'Ph:'.$allph.'--';
+                
+
+                $pehxx = $allbobot * $allph;
+                $pehx = number_format($pehxx,4);
+                // echo 'Phex:'.$pehx.'--';
+                array_push($allpehx, $pehx);
+                
+                $rumusx = ($allbobot * $allph)/$jumlahallpehx;
+                $rumus = number_format($rumusx,4);
+                
+                // echo 'Rumus:'.$rumus.'--';
+
+                $bayesx = ($allbobot * $rumus);
+                $bayes = number_format($bayesx,4);
+                // echo 'Bayes:'.$bayes.'||';
+               
+                array_push($allbayes, $bayes);
+            }
+            $hasil = array_sum($allbayes) * 100;
+            $last = $hasil.'%';
+            array_push($done, $last);
+
+            
         }
 
-        return $dataStep1;
+            for($i=0; $i < count($done); $i++){
+                $data = $namapenyakit[$i].' = '.$done[$i];
+                // echo '<hr>'.$data.'<br>';
+                Riwayat ::create([
+                    'nama'=>$request->input('nama'),
+                    'jenis_kelamin'=> $request -> input('jenis_kelamin'),
+                    'umur'=> $request -> input('umur'),
+                    'alamat'=> $request -> input('alamat'),
+                    'hasil'=>$namapenyakit [$i], 
+                    'response'=>$done[$i],
+                ]);
+            }
+            $data=[
+                'penyakit'=>$namapenyakit , 
+                'hasil'=>$done,
+            ];
+            
+        return view('identifikasipenguna/result',[
+            "penyakit"=>$namapenyakit , 
+            "gambar"=>$gambarpenyakit,
+            "solosi"=>$solosipenyakit,
+            "hasil"=>$done]);
+        
     }
 
+    // public function proses( Request $request)
+    // {
+    //     Session :: flash('nama',$request -> nama );
+    //     Session :: flash('jenis_kelamin',$request -> jenis_kelamin);
+    //     Session :: flash('umur',$request -> umur );
+    //     Session :: flash('alamat',$request -> alamat );
+    //     $request->validate([
+    //         'nama'=>'required',
+    //         'jenis_kelamin'=>'required',
+    //         'umur'=>'required',
+    //         'alamat'=>'required',
+            
+    //     ], [
+    //         'nama'=>'kode wajib di isi',
+    //         'jenis_kelamin.required'=>'nama wajib di isi',
+    //         'umur.required'=>'solosi wajib di isi',
+    //         'alamat.required'=>'silakan masukan gambar',
+           
+    //     ]);
+
+    //     $riwayat = [
+    //         'nama'=> $request -> input('nama'),
+    //         'jenis_kelamin'=> $request -> input('jenis_kelamin'),
+    //         'umur'=> $request -> input('umur'),
+    //         'alamat'=> $request -> input('alamat'),
+    //     ];
+       
+        
+
+    //     $gejala = Gejala::all();
+    //     $allgetp = array();
+    //     $gjls = array();
+    //     $allgejala = array();
+       
+    //     $getpscount = array(); //count pil
+       
+    //     $perpenyakit = array();
+    //     $allinputbobot = array();
+    //     foreach($request->kode as $value){
+    //         array_push($allgejala, $value);
+    //         $getps = DB::table('pengetahuan')
+    //                 ->select('id_penyakit', 'id_gejala', 'bobot')
+    //                 ->where('id_gejala', $value)
+    //                 ->get();
+    //         array_push($getpscount, $getps[0]);
+    //         foreach($getps as $psc){
+    //             $idp = $psc->id_penyakit;
+    //             $bobotp = $psc->bobot;
+    //             if(!in_array($idp, $perpenyakit, true)){
+    //                 array_push($perpenyakit, $idp);
+    //             }
+    //             array_push($allinputbobot, $bobotp);
+    //         }
+           
+    //     }
+
+         
+    //     // echo '<br>==========================================================================<hr>';
+        
+    //     $coba_allgejala = array();
+    //     foreach($request->kode as $gjl){
+    //         $htngp = Pengetahuan::where('id_gejala', $gjl)->get();
+
+    //         foreach ($htngp as $pp){
+    //             $md_array[$pp['id_penyakit']][] = $pp['bobot'];
+    //         }
+
+    //     }
+        
+    //     $pisahpenyakit = array();
+    //     $pisahskor = array();
+    //     foreach($perpenyakit as $exx){
+            
+    //         $pisah = $md_array[$exx];
+           
+    //         array_push($pisahpenyakit, $pisah);
+            
+    //         foreach ($pisah as $skor){
+                
+    //             array_push($pisahskor, $skor);
+    //         }
+           
+    //     }
+        
+       
+    //     $namapenyakit = array();
+    //     foreach($perpenyakit as $item){
+    //         $namap = Penyakit::where('id', $item)->get();
+    //         $name = $namap[0]['nama'];
+
+    //         array_push($namapenyakit, $name);
+           
+    //     }
+        
+    //     $done = array();
+    //     for($i=0; $i < count($pisahpenyakit); $i++){
+    //         $jumlahbobot = array_sum($pisahpenyakit[$i]);
+    //         $allpehx = array();
+    //         for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+    //             $allbobot = $pisahpenyakit[$i][$x];
+    //             $allph = $allbobot/$jumlahbobot;
+    //             $pehx = $allbobot * $allph;
+    //             array_push($allpehx, $pehx);
+    //         }
+    //         echo '<br>';
+    //         $jumlahallpehx = array_sum($allpehx);
+           
+    //         $allbayes = array();
+    //         for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+    //             $allbobot = $pisahpenyakit[$i][$x];
+    //             echo 'Bobot:'.$allbobot.'--';
+                
+    //             $allphx = $allbobot/$jumlahbobot;
+    //             $allph = number_format($allphx,4);
+    //             echo 'Ph:'.$allph.'--';
+                
+
+    //             $pehxx = $allbobot * $allph;
+    //             $pehx = number_format($pehxx,4);
+    //             echo 'Phex:'.$pehx.'--';
+    //             array_push($allpehx, $pehx);
+                
+    //             $rumusx = ($allbobot * $allph)/$jumlahallpehx;
+    //             $rumus = number_format($rumusx,4);
+                
+    //             echo 'Rumus:'.$rumus.'--';
+
+    //             $bayesx = ($allbobot * $rumus);
+    //             $bayes = number_format($bayesx,4);
+    //             echo 'Bayes:'.$bayes.'||';
+               
+    //             array_push($allbayes, $bayes);
+    //         }
+    //         $hasil = array_sum($allbayes) * 100;
+    //         $last = $hasil.'%';
+    //         array_push($done, $last);
+
+            
+    //     }
+
+    //         for($i=0; $i < count($done); $i++){
+    //             $data = $namapenyakit[$i].' = '.$done[$i];
+    //             echo '<hr>'.$data.'<br>';
+    //         }
+    //     Riwayat ::create($riwayat);
+    //     return redirect('identifikasipenguna/result')->with('succses', 'berhasil melakukan identifikasi');
+        
+    // }
 }
+

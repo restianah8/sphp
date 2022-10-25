@@ -1,17 +1,101 @@
-@extends('layouts.template')
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
 
-@section('title')
-   menampilkan Data Hama Dan Penyakit
-@endsection
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-@section('konten')
-<div class="content mt-5">
-<a href="/pengunainfo" class="btn btn-secondary"><< Kembali</a>
-</div>
-<div class="breadcrumbs">
-    <div class="col-sm-9">
-        <div class="page-header float-left">
-            <div class="page-title">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>Konsultasi</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="{{asset('utama/images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{asset('utama/images/apple-touch-icon.png')}}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('utama/css/bootstrap.min.css')}}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{{asset('utama/css/style.css')}}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{asset('utama/css/responsive.css')}}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{asset('utama/css/custom.css')}}">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    
+    <!-- Start Main Top -->
+    <header class="main-header">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                    <a class="navbar-brand" href="index.html"><img src="{{asset('utama/images/logo.png')}}" class="logo" alt=""></a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item " ><a class="nav-link" href="{{ route('template') }}">dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="identifikasipenguna">Konsultasi</a></li>
+                         <li class="nav-item active"><a class="nav-link" href="pengunainfo">Info Hama Dan Penyakit</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tentang">Tentang Sistem</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pengunpengetahuan">pengetahuan pakar</a></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+               
+            </div>
+           
+        </nav>
+        <!-- End Navigation -->
+    </header>
+    <!-- End Main Top -->
+
+   
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>,</h2>
+                    <h2>,</h2>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+<div class="shop-detail-box-main">
+        <div class="container">
+        <div class="row mb-4">
+
+        <h5>INFO Hama Dan Penyakit</h5>
+      </div>
+            <div class="content mt-3">
+            <a href="/pengunainfo" class="btn btn-secondary"><< Kembali</a>
+            </div>
+
                 <div class="content mt-180 md-180">
                 @if($penyakit->gambar)
                 <br>
@@ -20,24 +104,43 @@
                                 @endif 
                 </div>
               
-                <h1>{{$penyakit->kode}}</h1>
+                  <h1>{{$penyakit->kode}}</h1><br>
+                    <h6><b>Kode :<b> {{$penyakit->kode}}</h6><br>
+                    <h1><b>Nama  : <b>{{$penyakit->nama}}</h1> <br>
+                    <h1> <b>Diskripsi : <b></h1>
+                    <div class=" text-justify">{{$penyakit->Diskripsi}}</div>
+                    <br><br>
+                    <h1 ><b>Solusi:<b></h1> 
+                    <div class= "text-justify" >{{$penyakit->solosi}}</div>
                 
-                <p>
-                    <b>kode</b>
-                    <br>{{$penyakit->kode}}</br>
-                </p>
-                <p>
-                    <b>nama  : </b> {{$penyakit->nama}}
-                </p>
-                <p>
-                    <b>Diskripsi <br> </b>{{$penyakit->Diskripsi}}
-                </p>
-                <p>
-                    <b>solosi</b> <br>{{$penyakit->solosi}}
-                </p>
                 
+           
+        
             </div>
         </div>
     </div>
 
-@endsection
+</div>
+</div>
+</div>
+<a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <!-- ALL JS FILES -->
+    <script src="{{asset('utama/js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('utama/js/popper.min.js')}}"></script>
+    <script src="{{asset('utama/js/bootstrap.min.js')}}"></script>
+    <!-- ALL PLUGINS -->
+    <script src="{{asset('utama/js/jquery.superslides.min.js')}}"></script>
+    <script src="{{asset('utama/js/bootstrap-select.js')}}"></script>
+    <script src="{{asset('utama/js/inewsticker.js')}}"></script>
+    <script src="{{asset('utama/js/bootsnav.js.')}}"></script>
+    <script src="{{asset('utama/js/images-loded.min.js')}}"></script>
+    <script src="{{asset('utama/js/isotope.min.js')}}"></script>
+    <script src="{{asset('utama/js/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('utama/js/baguetteBox.min.js')}}"></script>
+    <script src="{{asset('utama/js/form-validator.min.js')}}"></script>
+    <script src="{{asset('utama/js/contact-form-script.js')}}"></script>
+    <script src="{{asset('utama/js/custom.js')}}"></script>
+</body>
+
+</html>

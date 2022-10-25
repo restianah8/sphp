@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gejala;
 use App\Models\Pengetahuan;
+use App\Models\Penyakit;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,117 +22,130 @@ class IdentifikasiController extends Controller
     {
 
         $gejala = Gejala::all();
-        // $pengetahuan = Pengetahuan::where('id_gejala', $);
         $allgetp = array();
         $gjls = array();
-        $allbobot = array();
+        $allgejala = array();
+       
+        $getpscount = array(); //count pil
+       
+        $perpenyakit = array();
+        $allinputbobot = array();
+        foreach($request->kode as $value){
+            array_push($allgejala, $value);
+            $getps = DB::table('pengetahuan')
+                    ->select('id_penyakit', 'id_gejala', 'bobot')
+                    ->where('id_gejala', $value)
+                    ->get();
+            array_push($getpscount, $getps[0]);
+
+            foreach($getps as $psc){
+                $idp = $psc->id_penyakit;
+                $bobotp = $psc->bobot;
+                if(!in_array($idp, $perpenyakit, true)){
+                    array_push($perpenyakit, $idp);
+                }
+                array_push($allinputbobot, $bobotp);
+            }
+           
+        }
+        
+        // echo '<br>==========================================================================<hr>';
+        
+        $coba_allgejala = array();
         foreach($request->kode as $gjl){
-            // echo $gjl.'<br>';
-            // $p = array_push($gjls, $gjl);
-            $gjls[] = $gjl;
-            // print_r($p);
-            $getp = Pengetahuan::where('id_gejala', $gjl)
-                                // ->where('id_penyakit', $gjl)   
-                                ->get();
-            // echo $getp[0]['penyakit'];
-            // echo $getp;
-            foreach($getp as $m){
-                // echo $m->id.' ';
-                // echo $m->id_penyakit;
-                $allgetp[] = $m->id_penyakit;
+            $htngp = Pengetahuan::where('id_gejala', $gjl)->get();
+
+            foreach ($htngp as $pp){
+                $md_array[$pp['id_penyakit']][] = $pp['bobot'];
             }
-            // echo $getp;
+
+        }
+        
+        $pisahpenyakit = array();
+        $pisahskor = array();
+        foreach($perpenyakit as $exx){
             
-            $htngp = Pengetahuan::where('id_gejala', $gjl)->count();
-            if($htngp != 1){
-                $getb = Pengetahuan::where('id_gejala', $gjl)->orderBy('bobot', 'desc')->limit(1)->get();
-                $bobot = $getb[0]['bobot'];
-            }else{
-
-                $getb = Pengetahuan::where('id_gejala', $gjl)
-                                    // ->where('id_penyakit', $gjl)   
-                                    ->get();
-                $getb = Pengetahuan::where('id_gejala', $gjl)->get();
-
-                $bobot = $getb[0]['bobot'];
+            $pisah = $md_array[$exx];
+           
+            array_push($pisahpenyakit, $pisah);
+            
+            foreach ($pisah as $skor){
+                
+                array_push($pisahskor, $skor);
             }
-            $allbobot[] = $bobot;
-            // echo 'Bobot:'.$bobot.'<br>'
-        }
-        print_r($allgetp);
-        // dd($allbobot);
-        // for($i = 0; $i > $allbobot; $i++){
-        // }
-        // foreach($allbobot as $bbt){
-        //     echo $bbt;
-        // }
-        $jumlahbobot = array_sum($allbobot);
-        $allph = array();
-        foreach($allbobot as $bbt){
-            $ph = ($bbt/$jumlahbobot);
-            $allph[] = number_format($ph,4);
+           
         }
         
-        ////////////////////////////////////
-        
-        // $angka=array(1,2,3,4,5,6,7,8,9,10);
-        // $angka1=array(1,2,3,4,5,6,7,8,9,10);
-        
-        $allpehx = array();
-        for($i=0; $i < count($allbobot); $i++){
-            $pehx = $allbobot[$i] * $allph[$i];
-            // echo $hasil[$i]. "</br>";
-            $allpehx[] = number_format($pehx,4);
-        }
-        // foreach($allbobot as $bbt){
-            // foreach($allph as $aph){
-                //     $pehx = ($bbt*$aph);
-                //     $pehxs[] = $pehx;
-                // }
-                // }
-        $jumlahallpehx = array_sum($allpehx);
+       
+        $namapenyakit = array();
+        $gambarpenyakit = array();
+        $solosipenyakit = array();
+        foreach($perpenyakit as $item){
+            $namap = Penyakit::where('id', $item)->get();
+            $name = $namap[0]['nama'];
+            $photo = $namap[0]['gambar'];
+            $solosi = $namap[0]['solosi'];
 
-        $allrumus = array();
-        for($i=0; $i < count($allbobot); $i++){
-            $rumus = ($allbobot[$i] * $allph[$i])/$jumlahallpehx;
+
+            array_push($namapenyakit, $name);
+           array_push($gambarpenyakit, $photo);
+           array_push( $solosipenyakit,  $solosi);
+        }
+        
+        $done = array();
+        for($i=0; $i < count($pisahpenyakit); $i++){
+            $jumlahbobot = array_sum($pisahpenyakit[$i]);
+            $allpehx = array();
+            for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+                $allbobot = $pisahpenyakit[$i][$x];
+                $allph = $allbobot/$jumlahbobot;
+                $pehx = $allbobot * $allph;
+                array_push($allpehx, $pehx);
+            }
+            echo '<br>';
+            $jumlahallpehx = array_sum($allpehx);
+           
+            $allbayes = array();
+            for($x=0; $x < count($pisahpenyakit[$i]); $x++){
+                $allbobot = $pisahpenyakit[$i][$x];
+                // echo 'Bobot:'.$allbobot.'--';
+                
+                $allphx = $allbobot/$jumlahbobot;
+                $allph = number_format($allphx,4);
+                // echo 'Ph:'.$allph.'--';
+                
+
+                $pehxx = $allbobot * $allph;
+                $pehx = number_format($pehxx,4);
+                // echo 'Phex:'.$pehx.'--';
+                array_push($allpehx, $pehx);
+                
+                $rumusx = ($allbobot * $allph)/$jumlahallpehx;
+                $rumus = number_format($rumusx,4);
+                
+                // echo 'Rumus:'.$rumus.'--';
+
+                $bayesx = ($allbobot * $rumus);
+                $bayes = number_format($bayesx,4);
+                // echo 'Bayes:'.$bayes.'||';
+               
+                array_push($allbayes, $bayes);
+            }
+            $hasil = array_sum($allbayes) * 100;
+            $last = $hasil.'%';
+            array_push($done, $last);
+
             
-            $allrumus[] = number_format($rumus,4);
         }
 
-        ///////////////////////////////////////////////
-
-        $allbayes = array();
-        for($i=0; $i < count($allbobot); $i++){
-            $bayes = ($allbobot[$i] * $allrumus[$i]);
-            
-            $allbayes[] = number_format($bayes,4);
-        }
-
-        $jumlahbayes = array_sum($allbayes);
-        $hasilakhir = $jumlahbayes*100;
-
-        print_r($allbobot); //P
-        echo '<br>';
-        print_r($jumlahbobot); //P(E|Hx)
-        echo '<br>';
-        print_r($allph); //P(Hx)
-        echo '<br>';
-        print_r($allpehx); //P(E|Hx)
-        echo '<br>';
-        print_r($jumlahallpehx); //P(E|Hx)
-        echo '<br>';
-        print_r($allrumus); //Rumus
-        echo '<br>';
-        print_r($allbayes); //All bayes
-        echo '<br>';
-        print_r($jumlahbayes); //All bayes
-        echo '<br>';
-        print_r($hasilakhir.'%'); //Hasil
-
-
-        // print_r($pehxs); //P(Hx)
-        
-        // return view('identifikasi/result');
-    
+            for($i=0; $i < count($done); $i++){
+                $data = $namapenyakit[$i].' = '.$done[$i];
+                // echo '<hr>'.$data.'<br>';
+            }
+            return view('identifikasi/result',[
+                "penyakit"=>$namapenyakit , 
+                "gambar"=>$gambarpenyakit,
+                "solosi"=>$solosipenyakit,
+                "hasil"=>$done]);
     }
 }
