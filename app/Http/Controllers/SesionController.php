@@ -10,7 +10,7 @@ class SesionController extends Controller
 {
     function index()
     {
-        return view("sesi/index");
+        return view("sesi.index");
     }
 
     function login(Request $request)
@@ -28,10 +28,11 @@ class SesionController extends Controller
             'password' => $request ->password,
         ];
         if(Auth::attempt($infologin)){
-            //kalau galau
-            //return 'sukses';
-            return redirect('dashboard')->with('success','berhasil login');
-            return redirect('/.das')->with('success', 'berhasil register');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect('/.tem');
+            }
         }else{
             //gagal
             //return 'gagal';

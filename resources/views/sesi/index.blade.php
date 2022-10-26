@@ -25,8 +25,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-    @include('komponen/pesan')
-
 </head>
 <body class="Ghost-White">
 
@@ -44,6 +42,7 @@
                 <div class="login-form">
                     <form action="/sesi/login" method="POST">
                         @csrf
+                        @include('komponen/pesan')
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" name="email" value="{{Session::get('email')}}" 
