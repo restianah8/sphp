@@ -19,7 +19,6 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('menu/css/sb-admin-2.min.css')}}" rel="stylesheet">
-    @include('komponen/pesan')
 </head>
 
 
@@ -40,6 +39,7 @@
                                         <h1 class="h4 text-gray-900 mb-4">Register</h1>
                                     </div>
                                     <form action="/regis" method="POST">
+                                        @include('komponen/pesan')
                                        @csrf
                                         <div class="form-group ">
                                         <label>Usernama</label>

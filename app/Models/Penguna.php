@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Penguna extends Model
+class Penguna extends Model implements Authenticatable
 {
-    use HasFactory, HasFactory, Notifiable;
+    use HasFactory, HasFactory, Notifiable, AuthenticableTrait;
+    
     public $table = 'penguna';
     protected $fillable = [
         'name',
