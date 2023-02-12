@@ -31,7 +31,7 @@
                       <div id="pay-invoice">
                           <div class="card-body">
                           @foreach ($pengetahuan as $item)
-                              <form action="{{'/pengetahuan/'.$pengetahuan->id}}" method="post" novalidate="novalidate" enctype="multipart/form-data">
+                              <form action="{{ route('pengetahuan.update', $pengetahuan->id) }}" method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                            @endforeach

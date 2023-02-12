@@ -15,7 +15,7 @@
     </div>
         <div class="col-sm-12">
         <div class="page-header float-right mt-2">
-        <a href="/pengetahuan/create" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+        <a href="pengetahuan/tambah" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah</a>
     </div>
 </div>
 
@@ -44,20 +44,17 @@
           
             @foreach ($pengetahuan as $item)
                 <tr>
-                    <td>{{$item ->id}}</td>
+                    <td>{{$loop->index + 1}}</td>
                     <td>{{$item ->penyakit->nama}}</td>
                     <td>{{$item ->gejala->nama}}</td>
                     <td>{{$item ->bobot}}</td>
                     <td>
-                         <a href='{{url('/pengetahuan/'. $item -> id. '/edit')}}' class=" mb-2 fa fa-edit bg-warning p-2 text-white rounded"></a>
-                         <form class = 'd-inline' action="{{'/pengetahuan/'.$item ->id}}"
-                         onclick="return confirm('Yakin Ingin Menghapus Data')" method ='post'>
-                         @csrf
-                         @method ('DELETE')
-                        <button class=" mb-2 fa fa-trash bg-danger p-2 text-white rounded"></button>
-                       
-                        <a href='{{url('/pengetahuan/'. $item -> id)}}' class="btn btn-sm btn-info text-white"> <i class="fa fa-eye"></i>
+                         <a href="pengetahuan/edit/{{$item->id}}" class=" mb-2 fa fa-edit bg-warning p-2 text-white rounded"></a>
+                         <a href="pengetahuan/hapus/{{$item->id}}" onclick="return confirm('Yakin Ingin Menghapus Data')"
+                            class=" mb-2 fa fa-trash bg-danger p-2 text-white rounded"></a>
+                        
                     </td>
+                     
                 </tr>
           @endforeach
            </tbody>

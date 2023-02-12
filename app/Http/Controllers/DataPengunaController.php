@@ -79,8 +79,12 @@ class DataPengunaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+   
+        public function destroy($id)
     {
-        //
+       
+        Penguna::where('id', $id)-> delete();
+        return redirect('penguna')->with('succses', 'berhasil hapus data');
     }
+    
 }

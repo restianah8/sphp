@@ -27,7 +27,7 @@
                       <!-- Credit Card -->
                       <div id="pay-invoice">
                           <div class="card-body">
-                              <form action="/pengetahuan" method="post" novalidate="novalidate" enctype="multipart/form-data">
+                              <form action="{{ route('pengetahuan.simpan') }}" method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                
                                     <div class="col-md-6">

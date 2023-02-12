@@ -44,7 +44,7 @@
            @foreach ($gejala as $item)
            
                 <tr>
-                <td>{{$item ->id}}</td>
+                <td>{{$loop->index + 1}}</td>
                 <td>{{$item ->kode}}</td>
                 <td>{{$item->nama}}</td>
                 <td>

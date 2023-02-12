@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('riwayat', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->string('umur');
-            $table->string('alamat');
-            $table->text('response')->nullable();
-            $table->text('hasil')->nullable();
+            $table->unsignedBigInteger('id_penguna')->nullable();
+            $table->text('hama_penyakit')->nullable();
+            $table->integer('persentase');
+            $table->text('Diskripsi')->nullable();
+            $table->text('solosi')->nullable();
+            $table-> string('gambar')->nullable();
+
             $table->timestamps();
         });
     }

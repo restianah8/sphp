@@ -16,7 +16,7 @@ class PenyakitController extends Controller
      */
     public function index()
     {
-        $penyakit = Penyakit ::all();
+        $penyakit = Penyakit::all();
         return view('penyakit.index', compact('penyakit'));
     }
 
@@ -27,7 +27,7 @@ class PenyakitController extends Controller
      */
     public function create()
     {
-        return view ('penyakit/create');
+        return view('penyakit.create');
     }
 
     /**
@@ -38,37 +38,47 @@ class PenyakitController extends Controller
      */
     public function store(Request $request)
     {
-        Session :: flash('kode',$request -> kode );
-        Session :: flash('nama',$request -> nama );
-        Session :: flash('Diskripsi',$request -> Diskripsi);
-        Session :: flash('solosi',$request -> solosi );
+        // dd($request->all());
+
+        Session::flash('kode', $request->kode);
+        Session::flash('nama', $request->nama);
+        Session::flash('Diskripsi', $request->Diskripsi);
+        Session::flash('solosi', $request->solosi);
+
         $request->validate([
-            'kode'=>'required',
-            'nama'=>'required',
-            'Diskripsi'=>'required',
-            'solosi'=>'required',
-            'gambar'=>'required|mimes:jpeg,jpg,png,gif'
+            'kode' => 'required',
+            'nama' => 'required',
+            'Diskripsi' => 'required',
+            'solosi' => 'required',
+            'gambar.*' => 'required|mimes:jpeg,jpg,png,gif'
         ], [
-            'kode'=>'kode wajib di isi',
-            'nama.required'=>'nama wajib di isi',
-            'Diskripsi.required' =>'Diskripsi wajib di isi',
-            'solosi.required'=>'solosi wajib di isi',
-            'gambar.required'=>'silakan masukan gambar',
-            'gambar.mimes'=>'gambar hanya diperbolehkan berekstensi jpeg,jpg,png,gif',
+            'kode' => 'kode wajib di isi',
+            'nama.required' => 'nama wajib di isi',
+            'Diskripsi.required' => 'Diskripsi wajib di isi',
+            'solosi.required' => 'solosi wajib di isi',
+            'gambar.required' => 'silakan masukan gambar',
+            'gambar.mimes' => 'gambar hanya diperbolehkan berekstensi jpeg,jpg,png,gif',
         ]);
-        $gambar_file = $request->file('gambar');
-        $gambar_ekstensi = $gambar_file->extension();
-        $gambar_nama = date('ymdhis').".". $gambar_ekstensi;
-        $gambar_file->move(public_path('gambar'), $gambar_nama);
+        // $gambar_file = $request->file('gambar');
+        // $gambar_ekstensi = $gambar_file->extension();
+        // $gambar_nama = date('ymdhis') . "." . $gambar_ekstensi;
+        // $gambar_file->move(public_path('gambar'), $gambar_nama);
 
         $penyakit = [
-            'kode'=> $request -> input('kode'),
-            'nama'=> $request -> input('nama'),
-            'Diskripsi'=> $request -> input('Diskripsi'),
-            'solosi'=> $request -> input('solosi'),
-            'gambar'=>$gambar_nama
+            'kode' => $request->input('kode'),
+            'nama' => $request->input('nama'),
+            'Diskripsi' => $request->input('Diskripsi'),
+            'solosi' => $request->input('solosi'),
+            // 'gambar' => $gambar_nama,
         ];
-        Penyakit ::create($penyakit);
+
+        $data = Penyakit::create($penyakit);
+
+        $data->addMultipleMediaFromRequest(['gambar'])
+            ->each(function ($media) {
+                $media->toMediaCollection('foto_hama');
+            });
+
         return redirect('penyakit')->with('succses', 'berhasil memasukan data');
     }
 
@@ -80,8 +90,8 @@ class PenyakitController extends Controller
      */
     public function show($id)
     {
-        $penyakit= Penyakit::where('id', $id)->first();
-        return view('penyakit/show') -> with ('penyakit',$penyakit);
+        $penyakit = Penyakit::where('id', $id)->first();
+        return view('penyakit/show')->with('penyakit', $penyakit);
     }
 
     /**
@@ -92,8 +102,8 @@ class PenyakitController extends Controller
      */
     public function edit($id)
     {
-        $penyakit = Penyakit :: where('id', $id)->first();
-        return view ('penyakit/edit') -> with ('penyakit',$penyakit);
+        $penyakit = Penyakit::where('id', $id)->first();
+        return view('penyakit/edit')->with('penyakit', $penyakit);
     }
 
     /**
@@ -106,44 +116,52 @@ class PenyakitController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'kode'=>'required',
-            'nama'=>'required',
-            'Diskripsi'=>'required',
-            'solosi'=>'required',
+            'kode' => 'required',
+            'nama' => 'required',
+            'Diskripsi' => 'required',
+            'solosi' => 'required',
         ], [
-            'kode.required'=>'nama  wajib di isi',
-            'nama.required'=>'nama  wajib di isi',
-            'Diskripsi.required' =>'Diskripsi wajib di isi',
-            'solosi.required'=>'solosi wajib di isi',
+            'kode.required' => 'nama  wajib di isi',
+            'nama.required' => 'nama  wajib di isi',
+            'Diskripsi.required' => 'Diskripsi wajib di isi',
+            'solosi.required' => 'solosi wajib di isi',
         ]);
         $penyakit = [
-            'kode'=> $request -> input('kode'),
-            'nama'=> $request -> input('nama'),
-            'Diskripsi'=> $request -> input('Diskripsi'),
-            'solosi'=> $request -> input('solosi'),
+            'kode' => $request->input('kode'),
+            'nama' => $request->input('nama'),
+            'Diskripsi' => $request->input('Diskripsi'),
+            'solosi' => $request->input('solosi'),
         ];
 
-        if($request->hasFile('gambar')){
-            $request->validate([
-                'gambar'=>'mimes:jpeg,jpg,png,gif'
-            ],[
-                'gambar.mimes'=>'gambar hanya diperbolehkan berekstensi jpeg,jpg,png,gif',
-            ]);
-            //sudah teropload di derektory
-            $gambar_file = $request->file('gambar');
-            $gambar_ekstensi = $gambar_file->extension();
-            $gambar_nama = date('ymdhis').".". $gambar_ekstensi;
-            $gambar_file->move(public_path('gambar'), $gambar_nama);
+        // if ($request->hasFile('gambar')) {
+        //     $request->validate([
+        //         'gambar' => 'mimes:jpeg,jpg,png,gif'
+        //     ], [
+        //         'gambar.mimes' => 'gambar hanya diperbolehkan berekstensi jpeg,jpg,png,gif',
+        //     ]);
+        //     //sudah teropload di derektory
+        //     $gambar_file = $request->file('gambar');
+        //     $gambar_ekstensi = $gambar_file->extension();
+        //     $gambar_nama = date('ymdhis') . "." . $gambar_ekstensi;
+        //     $gambar_file->move(public_path('gambar'), $gambar_nama);
 
-            $penyakit_gambar= Penyakit :: where('id', $id)->first();
-            File::delete(public_path('gambar').'/'. $penyakit_gambar->gambar);
+        //     $penyakit_gambar = Penyakit::where('id', $id)->first();
+        //     File::delete(public_path('gambar') . '/' . $penyakit_gambar->gambar);
 
-            $penyakit = [
-                'gambar'=>$gambar_nama
-            ];
-        }
+        //     $penyakit = [
+        //         'gambar' => $gambar_nama
+        //     ];
+        // }
 
-        Penyakit::where('id', $id)-> update($penyakit);
+        Penyakit::where('id', $id)->update($penyakit);
+
+        $data = Penyakit::find($id);
+
+        $data->addMultipleMediaFromRequest(['gambar'])
+            ->each(function ($media) {
+                $media->toMediaCollection('foto_hama');
+            });
+
         return redirect('penyakit')->with('succses', 'berhasil melakukan update data');
     }
 
@@ -155,9 +173,20 @@ class PenyakitController extends Controller
      */
     public function destroy($id)
     {
-        $penyakit= Penyakit::where('id', $id)->first();
-        File::delete(public_path('gambar').'/'.$penyakit->gambar);
-        Penyakit::where('id', $id)-> delete();
+        $penyakit = Penyakit::where('id', $id)->first();
+        File::delete(public_path('gambar') . '/' . $penyakit->gambar);
+        Penyakit::where('id', $id)->delete();
         return redirect('penyakit')->with('succses', 'berhasil hapus data');
+    }
+
+    public function hapusFoto(Penyakit $penyakit, $i)
+    {
+        if (isset($penyakit->media[$i])) {
+            $penyakit->media[$i]->delete();
+        }
+
+        return redirect()
+            ->back()
+            ->withSuccess('Berhasil menghapus foto');
     }
 }

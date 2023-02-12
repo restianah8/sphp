@@ -37,18 +37,25 @@
                     <th>Nama </th>
                     <th>Alamat </th>
                     <th>Email</th>
-                    <th>password</th>
+                    <th>Role</th>
+                    <th>aksi</th>
+                   
                 </tr>
             </thead>
             <tbody>
           
             @foreach ($penguna as $item)
                 <tr>
-                    <td>{{$item ->id}}</td>
+                    <td>{{$loop->index + 1}}</td>
                     <td>{{$item ->name}}</td>
-                    <td>{{$item -> alamat}}</td>
+                    <td>{{$item ->alamat}}</td>
                     <td>{{$item ->email}}</td>
-                    <td> {{$item ->password}}</td>
+                    <td>{{$item ->role}}</td>
+                    <td>
+                      <a href="datapenguna/hapus/{{$item->id}}" onclick="return confirm('Yakin Ingin Menghapus Data')"
+                                class=" mb-2 fa fa-trash bg-danger p-2 text-white rounded"></a>
+                         </td>
+                   
                 </tr>
           @endforeach
            </tbody>

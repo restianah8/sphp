@@ -46,7 +46,7 @@ class RegistrasiController extends Controller
         $user = Penguna::create($data);
 
         if ($user) {
-            return redirect('/.tem')->with('success', 'berhasil register');
+            return redirect('sesi')->with('success', 'berhasil register');
         } else {
             //gagal
             //return 'gagal';

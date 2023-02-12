@@ -1,37 +1,47 @@
 @extends('layout.template')
 
 @section('title')
-   menampilkan Data Hama Dan Penyakit
+    menampilkan Data Hama Dan Penyakit
 @endsection
 
 @section('content')
-<div class="content mt-6">
-<a href='/penyakit' class="btn btn-secondary"><< Kembali</a>
-</div>
-<div class="breadcrumbs">
-    <div class="col-sm-9">
-        <div class="page-header float-left">
-            <div class="page-title">
-                <div class="content mt-180 md-180">
-                @if($penyakit->gambar)
-                <br>
-                <center><img style="max-width : 350px; max-height:350px" src="{{ url('gambar').'/'.
-                                    $penyakit->gambar}}"/></center>  
-                                @endif 
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <div class="d-flex justify-content-between">
+                    <h3>Data {{ $penyakit->nama }}</h3>
+
+                    <a href='/penyakit' class="btn btn-secondary">
+                        << Kembali </a>
                 </div>
-              
-                <h1>{{$penyakit->kode}}</h1>
-                    <h1>Kode : {{$penyakit->kode}}</h1>
-                    <h1>Nama  : {{$penyakit->nama}}</h1> 
-                    <h1> Diskripsi : </h1>
-                    <div class=" text-justify">{{$penyakit->Diskripsi}}</div>
-                    <br><br>
-                    <h1 >Solusi:</h1> 
-                    <div class= "text-lg text-slete-700 font-normal" >{{$penyakit->solosi}}</div>
-                
-                
+                <div class="card rounded">
+                    <div class="card-header">
+                        @if (count($penyakit->media) > 0)
+                            <div class="row">
+                                @foreach ($penyakit->media as $media)
+                                    <div class="col">
+                                        <img src="{{ $media->getFullUrl() }}" alt="image" height="300px" width="300px"
+                                            class="rounded img-fluid">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <h1>{{ $penyakit->kode }}</h1>
+                        <div>
+                            <b>Kode:</b> {{ $penyakit->kode }}
+                        </div>
+                        <div><b>Nama:</b> {{ $penyakit->nama }}</div>
+                        <div><b>Deskripsi:</b></div>
+                        <div class=" text-justify">{{ $penyakit->Diskripsi }}</div><br>
+
+                        <b>Solusi Dari {{ $penyakit->nama }}:</b>
+                        <div>{{ $penyakit->solosi }}</div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-
 @endsection
